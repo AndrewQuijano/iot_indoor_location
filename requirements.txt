@@ -1,0 +1,2 @@
+--pre scapy[basic]
+scapy
