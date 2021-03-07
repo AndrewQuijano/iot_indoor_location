@@ -14,4 +14,4 @@ install:
   - pip install coverage
   - pip install -r requirements.txt
 script:
-  - coverage run treespace.py --test
+  - coverage run get_frequency.py --test
