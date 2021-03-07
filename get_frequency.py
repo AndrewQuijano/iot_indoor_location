@@ -46,7 +46,7 @@ def main():
             print("Has Ethernet Stuff")
             print(packet.summary())
         # print(packet.summary())
-        # print(packet.show())
+        print(packet.show())
 
 
 main()
