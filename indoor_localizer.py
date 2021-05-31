@@ -2,9 +2,13 @@
 # https://scapy.readthedocs.io/en/latest/api/scapy.layers.dot11.html
 
 import argparse
+import datetime
+
 import pyshark
 
 
+# Helper function to read 'answers.csv'
+# This is used for testing the code works as intended.
 def read_test_answers():
     answer_key = dict()
     with open('answers.csv', 'r') as fd:
@@ -14,23 +18,36 @@ def read_test_answers():
             line = line.strip().split(',')
             transmitter_address = line[0]
             # Tree-Based, Max-CST Metric, Spanning Tree
-            answer_key[transmitter_address] = (int(line[1]), int(line[2]), int(line[3]),
-                                               line[4], line[5], line[6])
+
+            if line[1].lower() == 'true':
+                answer_key[transmitter_address] = [True, line[2], line[3],
+                                                   line[4], line[5], line[6]]
+            else:
+                answer_key[transmitter_address] = [False, line[2], line[3],
+                                                   line[4], line[5], line[6]]
     return answer_key
 
 
 # Read a PCAP file and compare with golden answer stored in a CSV
-# This is mostly to verify the code works as intended
+# This is to verify the code works as intended
 def test(test_pcap='test.pcapng'):
     answers = read_test_answers()
     network_data = process_pcap(test_pcap)
     for transmitter, obtained_values in network_data.items():
         gold_answer = answers[transmitter]
+        # print("Comparing answer for Device: " + transmitter)
+        # print(gold_answer)
+        # print(obtained_values)
         for test_answer, true_answer in zip(obtained_values, gold_answer):
-            print(test_answer, true_answer)
-            # assert test_answer == true_answer
+            # Skip date, bc who cares about that...
+            # print(test_answer, true_answer)
+            # print(type(test_answer), type(true_answer))
+            if not isinstance(test_answer, datetime.datetime):
+                assert test_answer == true_answer
 
 
+# Print the output of analysis to CSV file
+# This was used to create answers.csv for test.pcapng
 def write_to_csv(output_data):
     with open('output.csv', 'w+') as fd:
         # Write the headers
@@ -39,7 +56,7 @@ def write_to_csv(output_data):
             fd.write(transmitter + ',')
             row = ""
             for element in value:
-                row += str(element) + ','
+                row += element + ','
             row = row[:-1]
             fd.write(row + '\n')
 
@@ -76,17 +93,22 @@ def process_pcap(pcap_file):
 
             # 6) BSS id of the strongest packet
             bssid = packet['WLAN'].get_field_by_showname("BSS Id")
-            print(is_ap)
-            print(dbm)
-            print(frequency)
-            print(sniff_time)
-            print(bssid)
-
             try:
                 ssid = packet['WLAN.MGT'].get_field_by_showname("SSID")
-                print(ssid)
             except KeyError:
-                ssid = None
+                ssid = ''
+
+            if bssid is None:
+                bssid = ''
+            if ssid is None:
+                ssid = ''
+            ssid = ssid.strip()
+            # print(is_ap)
+            # print(dbm)
+            # print(frequency)
+            # print(sniff_time)
+            # print(bssid)
+            # print(ssid)
 
             info = [is_ap, dbm, frequency, sniff_time, bssid, ssid]
             if transmitter in network_data:
@@ -99,28 +121,41 @@ def process_pcap(pcap_file):
     return network_data
 
 
+def sniff(args):
+    capture = pyshark.LiveCapture(interface=args.interface,
+                                  output_file='C:\\Users\\Andrew\\Desktop\\irt_test.pcapng')
+    capture.sniff(timeout=args.timeout * 60)
+    capture.clear()
+    capture.close()
+
+
 def main():
     parser = argparse.ArgumentParser(
         prog='A python program that uses scapy to get signal strength given SSID')
 
-    parser.add_argument('-r', '--read', dest='pcap', action='store', help='input PCAP file')
     parser.add_argument('-i', '--interface', dest='interface', action='store',
-                        help='Interface for Wireshark to Listen on for IoT stuff')
+                        help='Interface for Wireshark to Listen on for IoT stuff', type=str)
     parser.add_argument('-t', '--timeout', dest='timeout', action='store', type=int,
-                        help='How much time the interface should be sniffed for.')
+                        help='How much time (in minutes), the interface should be sniffed for.')
+    parser.add_argument('-o', '--output', dest='output', action='store', type=str,
+                        help='Destination for output PCAP file')
     group = parser.add_mutually_exclusive_group()
-    group.add_argument('--test', '-t', dest='test',
+    group.add_argument('--test', dest='test',
+                       action='store_true', help='Test the code on given PCAPs '
+                                                 'to ensure it gives the expected results')
+    group.add_argument('-r', '--read', dest='pcap', action='store', help='input PCAP file')
+    group.add_argument('-s', '--sniff', dest='sniff',
                        action='store_true', help='Test the code on given PCAPs '
                                                  'to ensure it gives the expected results')
     args = parser.parse_args()
 
-    # Sniff if needed...
-    # capture = pyshark.LiveCapture(interface=args.interface)
-    # capture.sniff(timeout=10)
+    if args.sniff:
+        sniff(args)
+        exit(0)
 
     if args.test:
         print("Running Test...")
-        # test()
+        test()
         exit(0)
 
     # Might be good idea to know My own MAC Address in code as well...

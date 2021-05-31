@@ -7,24 +7,25 @@ This requires installing scapy, this can be taken care of by reading the require
 
 *pip install -r requirements.txt*
 
-As this script is looking for the RadioTap attribute, which requires some extra [configuration](https://wiki.wireshark.org/CaptureSetup/WLAN#Turning_on_monitor_mode  
-).  
-
 This was tested on Intel NUC iot device, as it supports monitor mode, which is running Ubuntu 18 LTS.  
 
-To set up monitor mode, I used the following 
-[guide](https://www.cellstream.com/reference-reading/tipsandtricks/410-3-ways-to-put-your-wi-fi-interface-in-monitor-mode-in-linux)
+To set up monitor mode, I used the following [guide](https://www.cellstream.com/reference-reading/tipsandtricks/410-3-ways-to-put-your-wi-fi-interface-in-monitor-mode-in-linux)
 
-Use *ip link show* to check the interfaces.
+Use *ip link show* to check the interfaces. You can use the *set_monitor.sh* script to activate/deactivate monitor mode.
 
 ## Usage 
 First you need to capture packets:  
-tshark -i wlp58s0 -w /home/irt/irt_test.pcapng -a duration:60
+tshark -i (interface) -w (file-path) -a (duration in seconds)
 
-There is a test.pcapng is used to verify the functionality.  
+To verify the code is working as intended, there is a pre-configured test.pcapng, alongside the expected answer after processing in the answers.csv file. This can be tested using:  
+*python3 indoor_localizer --test*  
 
-The script uses scapy to access [RadioTap](https://stackoverflow.com/questions/60473359/scapy-get-set-frequency-or-channel-of-a-packet) headers. 
-A complete list of all values that can be captured is found [here](https://www.wireshark.org/docs/dfref/r/radiotap.html)
+If you want to use this script to analyze any arbitrary PCAP file, use the following arguments:  
+*python3 indoor_localizer -r <PCAP-file>*  
+
+TODO: This script will also support sniffing and creation of PCAP files rather than relying on the tshark script. This can be done as follows:  
+*python3 indoor_localizer -s -i (interface) -t <timeout (minutes)>*
+
 
 ## Authors and Acknowledgment
 Code Author: Andrew Quijano  
@@ -34,7 +35,7 @@ I would like to thank the Internet Real-Time (IRT) lab at Columbia University fo
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Project status
-Currently I am working on getting the basics of capturing Radio.
+TODO: First draft of specs, completed. Meet with Jan.
 
 ## References
 
