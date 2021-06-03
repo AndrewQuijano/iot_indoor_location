@@ -140,7 +140,7 @@ def process_pcap(pcap_file):
 
 
 def progress_bar(packet):
-    print(packet.summary())
+    print(packet)
 
 
 def sniff(args):
@@ -154,12 +154,12 @@ def sniff(args):
         capture = pyshark.LiveCapture(interface=args.interface, output_file=args.output)
 
     if args.timeout is None:
+        capture.apply_on_packets(progress_bar, timeout=60)
         capture.sniff(timeout=60)
     else:
+        capture.apply_on_packets(progress_bar, timeout=args.timeout * 60)
         capture.sniff(timeout=args.timeout * 60)
-    capture.apply_on_packets(progress_bar)
-
-    capture.clear()
+    # capture.clear()
     capture.close()
 
 
