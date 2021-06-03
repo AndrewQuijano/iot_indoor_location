@@ -5,7 +5,7 @@
 
 INT=$(sudo iw dev | sed -n '2 p' | cut -d ' ' -f2)
 MODE=$(sudo iw dev | grep monitor | cut -d ' ' -f2)
-if [[ 'monitor' == $1 ]]; then
+if [[ 'monitor' == $MODE ]]; then
 	echo "Monitor Mode - ON"
 	sudo ip link set $INT down
 	sudo iw $INT set type managed
