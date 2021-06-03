@@ -189,6 +189,7 @@ def main():
     args = parser.parse_args()
 
     if args.sniff:
+        print("Started sniffing...")
         sniff(args)
         exit(0)
 

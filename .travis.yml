@@ -14,4 +14,4 @@ install:
   - pip install coverage
   - pip install -r requirements.txt
 script:
-  - coverage run get_frequency.py --test
+  - coverage run indoor_localizer.py --test

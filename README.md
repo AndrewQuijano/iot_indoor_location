@@ -1,5 +1,6 @@
 # iot_indoor_location
-
+[![Build Status](https://www.travis-ci.com/AndrewQuijano/iot_indoor_location.svg?branch=main)](https://www.travis-ci.com/AndrewQuijano/iot_indoor_location)
+[![codecov](https://codecov.io/gh/AndrewQuijano/iot_indoor_location/branch/main/graph/badge.svg?token=8UNDO3DR82)](https://codecov.io/gh/AndrewQuijano/iot_indoor_location)
 
 ## Installation
 **Prerequisites**:  
