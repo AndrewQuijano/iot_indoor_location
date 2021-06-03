@@ -4,6 +4,7 @@
 import argparse
 import datetime
 import pyshark
+from asyncio import TimeoutError
 
 
 # Helper function to read 'answers.csv'
@@ -140,6 +141,7 @@ def process_pcap(pcap_file):
 
 def sniff(args):
     if args.interface is None:
+        print("No Interface Provided...Closing now...")
         return
 
     if args.output is None:
@@ -147,10 +149,14 @@ def sniff(args):
     else:
         capture = pyshark.LiveCapture(interface=args.interface, output_file=args.output)
 
-    if args.timeout is None:
-        capture.sniff(timeout=60)
-    else:
-        capture.sniff(timeout=args.timeout * 60)
+    try:
+        if args.timeout is None:
+            capture.sniff(timeout=60)
+        else:
+            capture.sniff(timeout=args.timeout * 60)
+    except TimeoutError:
+        print("Timed out...")
+        pass
     capture.clear()
     capture.close()
 
