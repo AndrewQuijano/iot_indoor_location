@@ -3,7 +3,6 @@
 
 import argparse
 import datetime
-
 import pyshark
 
 
@@ -17,8 +16,8 @@ def read_test_answers():
         for line in fd:
             line = line.strip().split(',')
             transmitter_address = line[0]
-            # Tree-Based, Max-CST Metric, Spanning Tree
 
+            # Determine if it was an AP or not
             if line[1].lower() == 'true':
                 answer_key[transmitter_address] = [True, line[2], line[3],
                                                    line[4], line[5], line[6]]
@@ -113,8 +112,26 @@ def process_pcap(pcap_file):
             info = [is_ap, dbm, frequency, sniff_time, bssid, ssid]
             if transmitter in network_data:
                 old_data = network_data[transmitter]
-                if dbm > old_data[1]:
-                    network_data[transmitter] = info
+                # If it was AP before, please preserve it
+                if old_data[0]:
+                    info[0] = True
+
+                    # -60 is stronger than -70 dBM
+                    # If a better reading received, replace old reading entirely.
+                    if dbm > old_data[1]:
+                        network_data[transmitter] = info
+                    else:
+                        network_data[transmitter] = old_data
+                else:
+                    # If it was detected as an AP now, this should be preserved as well.
+                    if is_ap:
+                        old_data[0] = True
+                        # -60 is stronger than -70 dBM
+                        # If a better reading received, replace old reading entirely.
+                        if dbm > old_data[1]:
+                            network_data[transmitter] = info
+                        else:
+                            network_data[transmitter] = old_data
             else:
                 print("Found new Transmitter Address: " + transmitter)
                 network_data[transmitter] = info
@@ -122,9 +139,18 @@ def process_pcap(pcap_file):
 
 
 def sniff(args):
-    capture = pyshark.LiveCapture(interface=args.interface,
-                                  output_file='C:\\Users\\Andrew\\Desktop\\irt_test.pcapng')
-    capture.sniff(timeout=args.timeout * 60)
+    if args.interface is None:
+        return
+
+    if args.output is None:
+        capture = pyshark.LiveCapture(interface=args.interface, output_file='irt_test.pcapng')
+    else:
+        capture = pyshark.LiveCapture(interface=args.interface, output_file=args.output)
+
+    if args.timeout is None:
+        capture.sniff(timeout=60)
+    else:
+        capture.sniff(timeout=args.timeout * 60)
     capture.clear()
     capture.close()
 
@@ -158,7 +184,6 @@ def main():
         test()
         exit(0)
 
-    # Might be good idea to know My own MAC Address in code as well...
     network = process_pcap(args.pcap)
 
     for key, value in network.items():

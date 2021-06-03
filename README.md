@@ -18,13 +18,13 @@ First you need to capture packets:
 tshark -i (interface) -w (file-path) -a (duration in seconds)
 
 To verify the code is working as intended, there is a pre-configured test.pcapng, alongside the expected answer after processing in the answers.csv file. This can be tested using:  
-*python3 indoor_localizer --test*  
+*python3 indoor_localizer.py --test*  
 
 If you want to use this script to analyze any arbitrary PCAP file, use the following arguments:  
-*python3 indoor_localizer -r <PCAP-file>*  
+*python3 indoor_localizer.py -r <PCAP-file>*  
 
 TODO: This script will also support sniffing and creation of PCAP files rather than relying on the tshark script. This can be done as follows:  
-*python3 indoor_localizer -s -i (interface) -t <timeout (minutes)>*
+*python3 indoor_localizer.py -s -i (interface) -t <timeout (minutes)>*
 
 
 ## Authors and Acknowledgment
