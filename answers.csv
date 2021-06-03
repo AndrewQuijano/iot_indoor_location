@@ -1,29 +1,29 @@
 Transmitter_MAC,Is_Access_Point,strongest_rssi,frequency,sniff_time,BSSID,SSID
-7c:57:3c:f9:16:e0,TRUE,-80,2412,40:39.5,7c:57:3c:f9:16:e0,Columbia University
-7c:57:3c:f9:16:e1,TRUE,-81,2412,40:49.5,7c:57:3c:f9:16:e1,Columbia U Secure
-7c:57:3c:f9:16:e2,TRUE,-81,2412,41:02.3,7c:57:3c:f9:16:e2,eduroam
-7c:57:3c:ee:10:21,TRUE,-76,2412,41:25.0,7c:57:3c:ee:10:21,Columbia U Secure
-7c:57:3c:ee:10:22,TRUE,-74,2412,40:54.2,7c:57:3c:ee:10:22,eduroam
-7c:57:3c:f9:8c:40,FALSE,-74,2412,40:32.9,7c:57:3c:f9:8c:40,Columbia University
-7c:57:3c:f9:8c:41,TRUE,-74,2412,41:04.5,7c:57:3c:f9:8c:41,Columbia U Secure
-7c:57:3c:f9:8c:42,TRUE,-73,2412,40:33.4,7c:57:3c:f9:8c:42,eduroam
-96:b6:85:f8:72:77,FALSE,-54,2412,40:58.6,00:25:00:ff:94:73,
-6c:70:9f:ef:6e:aa,FALSE,-51,2412,40:47.5,,
-7c:57:3c:ed:d8:c0,TRUE,-74,2412,40:42.9,7c:57:3c:ed:d8:c0,Columbia University
-7c:57:3c:ed:d8:c1,TRUE,-74,2412,40:55.0,7c:57:3c:ed:d8:c1,Columbia U Secure
-7c:57:3c:ed:d8:c2,TRUE,-74,2412,40:37.6,7c:57:3c:ed:d8:c2,eduroam
-7c:57:3c:f8:50:a0,TRUE,-79,2412,40:45.3,7c:57:3c:f8:50:a0,Columbia University
-7c:57:3c:f8:50:a2,FALSE,-79,2412,41:04.4,7c:57:3c:f8:50:a2,eduroam
-7c:57:3c:ee:10:20,TRUE,-75,2412,41:24.9,7c:57:3c:ee:10:20,Columbia University
-7c:57:3c:f8:50:a1,TRUE,-80,2412,41:09.9,7c:57:3c:f8:50:a1,Columbia U Secure
-98:da:c4:f3:56:66,FALSE,-60,2412,40:43.1,98:da:c4:f3:56:66,TP-Link_5666
-1c:1a:c0:6f:41:1e,FALSE,-50,2412,40:47.5,6c:70:9f:ef:6e:aa,
-a4:34:d9:24:8e:11,FALSE,-57,2412,40:48.1,ff:ff:ff:ff:ff:ff,SSID:
-48:5a:b6:a0:ad:7b,FALSE,-66,2412,40:48.5,e8:26:89:91:4d:40,
-f8:bb:bf:29:de:e6,FALSE,-71,2412,40:58.7,f8:bb:bf:29:de:e6,
-fe:94:e4:86:85:22,FALSE,-52,2412,41:03.4,ff:ff:ff:ff:ff:ff,SSID:
-e8:26:89:91:3a:e0,FALSE,-59,2412,40:58.5,e8:26:89:91:3a:e0,
-ac:ed:5c:ca:9a:04,FALSE,-74,2412,41:10.6,ff:ff:ff:ff:ff:ff,Columbia University
-9c:b6:d0:bd:8c:0f,FALSE,-68,2412,41:11.2,ff:ff:ff:ff:ff:ff,SSID:
-d4:6d:6d:5d:fe:2b,FALSE,-33,2412,41:14.7,ff:ff:ff:ff:ff:ff,SSID:
-1c:1a:c0:a3:41:8a,FALSE,-51,2412,41:15.6,ff:ff:ff:ff:ff:ff,SSID:
+7c:57:3c:f9:16:e0,True,-80,2412,2021-03-07 15:40:39.534642,7c:57:3c:f9:16:e0,Columbia University
+7c:57:3c:f9:16:e1,True,-81,2412,2021-03-07 15:40:49.467611,7c:57:3c:f9:16:e1,Columbia U Secure
+7c:57:3c:f9:16:e2,True,-81,2412,2021-03-07 15:41:02.267540,7c:57:3c:f9:16:e2,eduroam
+7c:57:3c:ee:10:21,True,-76,2412,2021-03-07 15:41:25.009029,7c:57:3c:ee:10:21,Columbia U Secure
+7c:57:3c:ee:10:22,True,-74,2412,2021-03-07 15:40:54.182474,7c:57:3c:ee:10:22,eduroam
+7c:57:3c:f9:8c:40,True,-74,2412,2021-03-07 15:40:32.891229,7c:57:3c:f9:8c:40,Columbia University
+7c:57:3c:f9:8c:41,True,-74,2412,2021-03-07 15:41:04.545805,7c:57:3c:f9:8c:41,Columbia U Secure
+7c:57:3c:f9:8c:42,True,-73,2412,2021-03-07 15:40:33.429840,7c:57:3c:f9:8c:42,eduroam
+96:b6:85:f8:72:77,False,-50,2412,2021-03-07 15:40:31.679581,00:25:00:ff:94:73,
+6c:70:9f:ef:6e:aa,True,-51,2412,2021-03-07 15:40:47.453238,,
+7c:57:3c:ed:d8:c0,True,-74,2412,2021-03-07 15:40:42.888401,7c:57:3c:ed:d8:c0,Columbia University
+7c:57:3c:ed:d8:c1,True,-74,2412,2021-03-07 15:40:54.971675,7c:57:3c:ed:d8:c1,Columbia U Secure
+7c:57:3c:ed:d8:c2,True,-74,2412,2021-03-07 15:40:37.563942,7c:57:3c:ed:d8:c2,eduroam
+7c:57:3c:f8:50:a0,True,-79,2412,2021-03-07 15:40:45.259055,7c:57:3c:f8:50:a0,Columbia University
+7c:57:3c:f8:50:a2,True,-79,2412,2021-03-07 15:41:04.426625,7c:57:3c:f8:50:a2,eduroam
+7c:57:3c:ee:10:20,True,-75,2412,2021-03-07 15:41:24.903589,7c:57:3c:ee:10:20,Columbia University
+7c:57:3c:f8:50:a1,True,-80,2412,2021-03-07 15:41:09.937608,7c:57:3c:f8:50:a1,Columbia U Secure
+98:da:c4:f3:56:66,True,-60,2412,2021-03-07 15:40:43.138512,98:da:c4:f3:56:66,TP-Link_5666
+1c:1a:c0:6f:41:1e,False,-46,2412,2021-03-07 15:40:47.453208,,
+a4:34:d9:24:8e:11,False,-57,2412,2021-03-07 15:40:48.087907,ff:ff:ff:ff:ff:ff,SSID:
+48:5a:b6:a0:ad:7b,False,-66,2412,2021-03-07 15:40:48.475614,e8:26:89:91:4d:40,
+f8:bb:bf:29:de:e6,False,-70,2412,2021-03-07 15:40:53.655649,,
+fe:94:e4:86:85:22,False,-49,2412,2021-03-07 15:40:54.652325,ff:ff:ff:ff:ff:ff,SSID:
+e8:26:89:91:3a:e0,False,-59,2412,2021-03-07 15:40:58.485899,e8:26:89:91:3a:e0,
+ac:ed:5c:ca:9a:04,False,-74,2412,2021-03-07 15:41:10.625664,ff:ff:ff:ff:ff:ff,Columbia University
+9c:b6:d0:bd:8c:0f,False,-68,2412,2021-03-07 15:41:11.192734,ff:ff:ff:ff:ff:ff,SSID:
+d4:6d:6d:5d:fe:2b,False,-33,2412,2021-03-07 15:41:14.684180,ff:ff:ff:ff:ff:ff,SSID:
+1c:1a:c0:a3:41:8a,False,-51,2412,2021-03-07 15:41:15.644210,ff:ff:ff:ff:ff:ff,SSID:

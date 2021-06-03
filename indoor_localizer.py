@@ -56,7 +56,7 @@ def write_to_csv(output_data):
             fd.write(transmitter + ',')
             row = ""
             for element in value:
-                row += element + ','
+                row += str(element) + ','
             row = row[:-1]
             fd.write(row + '\n')
 
@@ -182,7 +182,7 @@ def main():
     group.add_argument('--test', dest='test',
                        action='store_true', help='Test the code on given PCAPs '
                                                  'to ensure it gives the expected results')
-    group.add_argument('-r', '--read', dest='pcap', action='store', help='input PCAP file')
+    group.add_argument('-r', '--read', dest='pcap', action='store', help='input PCAP file', type=str)
     group.add_argument('-s', '--sniff', dest='sniff',
                        action='store_true', help='Test the code on given PCAPs '
                                                  'to ensure it gives the expected results')
