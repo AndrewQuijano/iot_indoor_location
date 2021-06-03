@@ -139,6 +139,10 @@ def process_pcap(pcap_file):
     return network_data
 
 
+def progress_bar(packet):
+    print(packet.summary())
+
+
 def sniff(args):
     if args.interface is None:
         print("No Interface Provided...Closing now...")
@@ -149,14 +153,12 @@ def sniff(args):
     else:
         capture = pyshark.LiveCapture(interface=args.interface, output_file=args.output)
 
-    try:
-        if args.timeout is None:
-            capture.sniff(timeout=60)
-        else:
-            capture.sniff(timeout=args.timeout * 60)
-    except TimeoutError:
-        print("Timed out...")
-        pass
+    if args.timeout is None:
+        capture.sniff(timeout=60)
+    else:
+        capture.sniff(timeout=args.timeout * 60)
+    capture.apply_on_packets(progress_bar)
+
     capture.clear()
     capture.close()
 
@@ -171,6 +173,8 @@ def main():
                         help='How much time (in minutes), the interface should be sniffed for.')
     parser.add_argument('-o', '--output', dest='output', action='store', type=str,
                         help='Destination for output PCAP file')
+    parser.add_argument('-c', '--count', dest='count', action='store', type=int,
+                        help='Number of Packets until sniffer stops sniffing...')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('--test', dest='test',
                        action='store_true', help='Test the code on given PCAPs '
