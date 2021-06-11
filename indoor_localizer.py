@@ -1,10 +1,9 @@
-# https://github.com/secdev/scapy/blob/master/scapy/layers/dot11.py#L306-L568
-# https://scapy.readthedocs.io/en/latest/api/scapy.layers.dot11.html
-
 import argparse
 import datetime
 import pyshark
 from asyncio import TimeoutError
+from time import sleep
+from zeroconf import ServiceBrowser, ServiceStateChange, Zeroconf, DNSAddress
 
 
 # Helper function to read 'answers.csv'
@@ -46,19 +45,41 @@ def test(test_pcap='test.pcapng'):
                 assert test_answer == true_answer
 
 
+def on_service_state_change(zeroconf, service_type, name, state_change):
+    if state_change is ServiceStateChange.Added:
+        zeroconf.get_service_info(service_type, name)
+
+
 # Print the output of analysis to CSV file
 # This was used to create answers.csv for test.pcapng
+# Reference: https://stackoverflow.com/questions/10244117/how-can-i-find-the-ip-address-of-a-host-using-mdns
 def write_to_csv(output_data):
+    zeroconf = Zeroconf()
+    ServiceBrowser(zeroconf, "_workstation._tcp.local.", handlers=[on_service_state_change])
+    ServiceBrowser(zeroconf, "_telnet._tcp.local.", handlers=[on_service_state_change])
+    ServiceBrowser(zeroconf, "_http._tcp.local.", handlers=[on_service_state_change])
+    ServiceBrowser(zeroconf, "_printer._tcp.local.", handlers=[on_service_state_change])
+    sleep(2)
+    cache = zeroconf.cache.cache
+    zeroconf.close()
+
     with open('output.csv', 'w+') as fd:
         # Write the headers
         fd.write('Transmitter_MAC,Is_Access_Point,strongest_rssi,frequency,sniff_time,BSSID,SSID\n')
         for transmitter, value in output_data.items():
             fd.write(transmitter + ',')
+            print(value)
             row = ""
             for element in value:
                 row += str(element) + ','
             row = row[:-1]
             fd.write(row + '\n')
+
+    # list all known hosts in .local
+    for key in cache.keys():
+        if isinstance(cache[key][0], DNSAddress):
+            print(key, cache[key])
+    sleep(1)
 
 
 def process_pcap(pcap_file):
@@ -108,7 +129,7 @@ def process_pcap(pcap_file):
             # print(frequency)
             # print(sniff_time)
             # print(bssid)
-            # print(ssid)
+            print(ssid)
 
             info = [is_ap, dbm, frequency, sniff_time, bssid, ssid]
             if transmitter in network_data:
