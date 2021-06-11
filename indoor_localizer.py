@@ -76,9 +76,12 @@ def write_to_csv(output_data):
             fd.write(row + '\n')
 
     # list all known hosts in .local
-    for key in cache.keys():
-        if isinstance(cache[key][0], DNSAddress):
-            print(key, cache[key])
+    for key, value in cache.items():
+        print(str(len(value)))
+        if isinstance(value[0], DNSAddress):
+            print(key, value)
+        else:
+            print(value)
     sleep(1)
 
 
@@ -129,7 +132,7 @@ def process_pcap(pcap_file):
             # print(frequency)
             # print(sniff_time)
             # print(bssid)
-            print(ssid)
+            # print(ssid)
 
             info = [is_ap, dbm, frequency, sniff_time, bssid, ssid]
             if transmitter in network_data:
@@ -155,7 +158,7 @@ def process_pcap(pcap_file):
                         else:
                             network_data[transmitter] = old_data
             else:
-                print("Found new Transmitter Address: " + transmitter)
+                # print("Found new Transmitter Address: " + transmitter)
                 network_data[transmitter] = info
     return network_data
 
