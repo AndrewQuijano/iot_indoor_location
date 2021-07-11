@@ -63,6 +63,8 @@ def write_to_csv(output_data):
 
 def process_pcap(pcap_file):
     network_data = dict()
+    ap_ssid = dict()
+
     with pyshark.FileCapture(pcap_file) as packets:
         for packet in packets:
             # print(packet['WLAN'])
@@ -80,6 +82,9 @@ def process_pcap(pcap_file):
 
             # 2) A flag indicating if the device is an AP or client
             is_ap = int(packet['WLAN'].get_field_by_showname("Type/Subtype")) == 8
+            if is_ap:
+                ssid = packet['WLAN.MGT'].get_field_by_showname("SSID")
+                ap_ssid[transmitter] = ssid
 
             # 3) The strongest received signal strength (antenna signal in dBm)
             # observed from the device on each antenna
@@ -93,16 +98,10 @@ def process_pcap(pcap_file):
 
             # 6) BSS id of the strongest packet
             bssid = packet['WLAN'].get_field_by_showname("BSS Id")
-            try:
-                ssid = packet['WLAN.MGT'].get_field_by_showname("SSID")
-            except KeyError:
-                ssid = ''
 
             if bssid is None:
                 bssid = ''
-            if ssid is None:
-                ssid = ''
-            ssid = ssid.strip()
+
             # print(is_ap)
             # print(dbm)
             # print(frequency)
@@ -110,32 +109,30 @@ def process_pcap(pcap_file):
             # print(bssid)
             # print(ssid)
 
-            info = [is_ap, dbm, frequency, sniff_time, bssid, ssid]
+            info = [dbm, frequency, sniff_time, bssid]
+
             if transmitter in network_data:
                 old_data = network_data[transmitter]
-                # If it was AP before, please preserve it
-                if old_data[0]:
-                    info[0] = True
-
-                    # -60 is stronger than -70 dBM
-                    # If a better reading received, replace old reading entirely.
-                    if dbm > old_data[1]:
-                        network_data[transmitter] = info
-                    else:
-                        network_data[transmitter] = old_data
+                # -60 is stronger than -70 dBM
+                # If a better reading received, replace old reading entirely.
+                if dbm > old_data[0]:
+                    network_data[transmitter] = info
                 else:
-                    # If it was detected as an AP now, this should be preserved as well.
-                    if is_ap:
-                        old_data[0] = True
-                        # -60 is stronger than -70 dBM
-                        # If a better reading received, replace old reading entirely.
-                        if dbm > old_data[1]:
-                            network_data[transmitter] = info
-                        else:
-                            network_data[transmitter] = old_data
+                    network_data[transmitter] = old_data
             else:
                 print("Found new Transmitter Address: " + transmitter)
                 network_data[transmitter] = info
+
+    # Fill out the AP data...
+    for transmitter in network_data.keys():
+        data = network_data[transmitter]
+        if transmitter in ap_ssid.keys():
+            data.append(ap_ssid[transmitter])
+            data.insert(0, True)
+        else:
+            data.append('')
+            data.insert(0, False)
+        network_data[transmitter] = data
     return network_data
 
 

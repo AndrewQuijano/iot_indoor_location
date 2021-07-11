@@ -1,3 +1,6 @@
+# Don't store output of iot scan
+output.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
